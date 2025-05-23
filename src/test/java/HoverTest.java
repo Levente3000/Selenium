@@ -17,10 +17,9 @@ public class HoverTest {
     @Before
     public void setup() throws MalformedURLException {
         ChromeOptions options = new ChromeOptions();
-        options.setHeadless(false);
+        options.setHeadless(true);
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--disable-gpu");
 
         this.driver = new RemoteWebDriver(new URL("http://selenium:4444/wd/hub"), options);
         this.driver.manage().window().maximize();
@@ -40,13 +39,13 @@ public class HoverTest {
         LoginPage loginPage = mainPage.login();
         MainPage mainPageAfterLogin = loginPage.login("SeleniumUserName", "SeleniumPassword");
 
-        WebElement settingsButton = mainPageAfterLogin.getSettingButtonElement();
-        String colorBefore = settingsButton.getCssValue("background-color");
+        WebElement FilterButton = mainPageAfterLogin.getFilterButtonElement();
+        String colorBefore = FilterButton.getCssValue("background-color");
 
         Actions actions = new Actions(driver);
-        actions.moveToElement(settingsButton).perform();
+        actions.moveToElement(FilterButton).perform();
 
-        String colorAfter = settingsButton.getCssValue("background-color");
+        String colorAfter = FilterButton.getCssValue("background-color");
 
         Assert.assertNotEquals(colorBefore, colorAfter);
     }

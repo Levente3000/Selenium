@@ -18,6 +18,12 @@
             return this.driver.findElement(locator);
         }
 
+        protected WebElement waitAndReturnElementWithTimout(By locator, int timoutInSeconds) {
+            WebDriverWait customWait = new WebDriverWait(driver, timoutInSeconds);
+            customWait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            return driver.findElement(locator);
+        }
+
         public String getBodyText() {
             WebElement bodyElement = this.waitAndReturnElement(By.tagName("body"));
             return bodyElement.getText();

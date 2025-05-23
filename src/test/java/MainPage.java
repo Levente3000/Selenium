@@ -5,10 +5,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class MainPage extends BasePage {
     private By mainPageLoginButtonLocator = By.xpath("//a[contains(@class, 'rbx-navbar-login')]");
-    private By cookieButtonLocator = By.xpath("//button[contains(@class, 'btn-cta-lg')]");
-    private By settingsButtonLocator = By.xpath("//button[contains(@class,'btn-navigation-nav-settings-md')]");
-    private By logoutMenuItemLocator = By.xpath("//a[contains(@class,'logout-menu-item')]");
-    private By profileMenuLocator = By.xpath("//a[contains(@href,'https://www.roblox.com/users/8475812665/profile')]");
+    private By cookieButtonLocator = By.xpath("//button[@class='btn-cta-lg cookie-btn btn-primary-md btn-min-width']");
+    private By settingsButtonLocator = By.xpath("//button[@class='btn-navigation-nav-settings-md']");
+    private By logoutMenuItemLocator = By.xpath("//a[@class='rbx-menu-item logout-menu-item']");
+    private By filterLocator = By.xpath("//button[@class='filter-select btn-secondary-md btn-min-width']");
+    private By profileMenuLocator = By.xpath("//a[@id='nav-profile']");
 
     public MainPage(WebDriver driver) {
         super(driver);
@@ -31,18 +32,19 @@ public class MainPage extends BasePage {
     }
 
     public MainPage logout() {
-        this.waitAndReturnElement(this.settingsButtonLocator).click();
+        this.wait.until(ExpectedConditions.presenceOfElementLocated(this.settingsButtonLocator));
+        this.waitAndReturnElementWithTimout(this.settingsButtonLocator, 20).click();
         this.waitAndReturnElement(this.logoutMenuItemLocator).click();
 
         return this;
     }
 
     public boolean isSettingButtonVisible() {
-        return this.waitAndReturnElement(this.settingsButtonLocator).isDisplayed();
+        return this.waitAndReturnElement(this.filterLocator).isDisplayed();
     }
 
-    public WebElement getSettingButtonElement() {
-        return this.waitAndReturnElement(this.settingsButtonLocator);
+    public WebElement getFilterButtonElement() {
+        return this.waitAndReturnElement(this.filterLocator);
     }
 
     public boolean isLoginButtonVisible() {
@@ -50,7 +52,7 @@ public class MainPage extends BasePage {
     }
 
     public ProfilePage navigateToProfilePage() {
-        this.waitAndReturnElement(this.profileMenuLocator).click();
+        this.waitAndReturnElementWithTimout(this.profileMenuLocator, 20).click();
 
         return new ProfilePage(driver);
     }

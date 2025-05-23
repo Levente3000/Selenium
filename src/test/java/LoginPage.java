@@ -6,18 +6,18 @@ public class LoginPage extends BasePage {
     private By usernameLocator = By.xpath("//input[@id='login-username']");
     private By passwordLocator = By.xpath("//input[@id='login-password']");
     private By loginPageLoginButtonLocator = By.xpath("//button[@id='login-button']");
-    private By settingsButtonAfterLoginLocator = By.xpath("//button[contains(@class,'btn-navigation-nav-settings-md')]");
 
     public LoginPage(WebDriver driver) {
         super(driver);
     }
 
     public MainPage login(String username, String password) {
+        //Login may fail if 2step verification popup comes up
         this.waitAndReturnElement(this.usernameLocator).sendKeys(username);
         this.waitAndReturnElement(this.passwordLocator).sendKeys(password);
         this.waitAndReturnElement(this.loginPageLoginButtonLocator).click();
 
-        wait.until(ExpectedConditions.presenceOfElementLocated(settingsButtonAfterLoginLocator));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(this.loginPageLoginButtonLocator));
 
         return new MainPage(this.driver);
     }
